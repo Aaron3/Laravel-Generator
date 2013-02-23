@@ -571,19 +571,19 @@ EOT;
         // We'll use the words that comes immediately before "_table"
         // If there are multiple words, use all but the first.
         // create_users_table => users
-        preg_match('/[^_]*_*([a-zA-Z_]+)_table/', $class_name, $matches);
+        preg_match('/([^_]*_)*([a-zA-Z_]+)_table/', $class_name, $matches);
 
         if ( empty($matches) ) {
             // Or, if the user doesn't write "table", we'll just use
             // the text after the first word.
             // create_users => users
-            preg_match('/[^_]*_([a-zA-Z_]+)$/', $class_name, $matches);
+            preg_match('/([^_]*)*_([a-zA-Z_]+)$/', $class_name, $matches);
         }
 
         // Hmm - I'm stumped. Just use a generic name.
         return empty($matches)
             ? "TABLE"
-            : $matches[1];
+            : $matches[2];
     }
 
 
