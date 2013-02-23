@@ -568,15 +568,16 @@ EOT;
     protected function parse_table_name($class_name)
     {
         // Try to figure out the table name
-        // We'll use the word that comes immediately before "_table"
+        // We'll use the words that comes immediately before "_table"
+        // If there are multiple words, use all but the first.
         // create_users_table => users
-        preg_match('/([a-zA-Z]+)_table/', $class_name, $matches);
+        preg_match('/[^_]*_*([a-zA-Z_]+)_table/', $class_name, $matches);
 
         if ( empty($matches) ) {
             // Or, if the user doesn't write "table", we'll just use
-            // the text at the end of the string
+            // the text after the first word.
             // create_users => users
-            preg_match('/_([a-zA-Z]+)$/', $class_name, $matches);
+            preg_match('/[^_]*_([a-zA-Z_]+)$/', $class_name, $matches);
         }
 
         // Hmm - I'm stumped. Just use a generic name.

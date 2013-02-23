@@ -155,6 +155,21 @@ class Generate_Test extends PHPUnit_Framework_TestCase
 		$this->assertContains("Schema::drop('users')", $contents);
 	}
 
+	public function test_migration_sets_up_long_table_name()
+	{
+		$this->generate->migration(array(
+			'create_users_read_articles_table'
+		));
+
+		$file = File::latest(self::$migration);
+		$contents = File::get($file);
+
+		$this->assertContains("Schema::create('users_read_articles'", $contents);
+
+		// Dropping too
+		$this->assertContains("Schema::drop('users_read_articles')", $contents);
+	}
+
 
 	public function test_migration_sets_up_add_schema()
 	{
